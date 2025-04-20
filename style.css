@@ -1,0 +1,125 @@
+:root {
+    --glow-color: rgba(63, 251, 185, 0.64);
+    --glow-size: 10px;
+    --glow-blur: 6px;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+body {
+    background-image: url('bg.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    position: relative;
+}
+.bg-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+.card {
+    position: absolute;
+    top: calc(50% + 7px);
+    left: 50%;
+    transform: translate(-50%, -50%) perspective(1000px);
+    background-image: url('cardnoshade.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 55.296vw;
+    aspect-ratio: 172.74 / 218.37;
+    max-width: 318.39px;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    transition: transform 0.1s ease-out;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+    transform-origin: center center;
+}
+
+/* Lớp glow riêng */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 var(--glow-blur) var(--glow-size) var(--glow-color);
+    pointer-events: none;
+    z-index: -2; /* Giảm z-index xuống thấp hơn */
+}
+
+/* Lớp drop shadow mỏng */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 0.1px 0.1px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: -1; /* Nằm trên lớp glow */
+}
+
+/* Hiệu ứng holographic */
+.card-holo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(125deg, 
+        rgba(255, 0, 0, 0.3), 
+        rgba(255, 255, 0, 0.3), 
+        rgba(0, 255, 0, 0.3), 
+        rgba(0, 255, 255, 0.3), 
+        rgba(0, 0, 255, 0.3), 
+        rgba(255, 0, 255, 0.3)
+    );
+    mix-blend-mode: color-dodge;
+    opacity: 0;
+    pointer-events: none;
+    filter: contrast(1.5) brightness(1.3);
+}
+
+/* Hiệu ứng shine */
+.card-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(125deg, 
+        rgba(255, 255, 255, 0) 20%, 
+        rgba(255, 255, 255, 0.25) 40%, 
+        rgba(255, 255, 255, 0) 60%
+    );
+    transform: translateX(0%);
+    opacity: 0.04375;
+    pointer-events: none;
+}
+
+/* Hiệu ứng lấp lánh */
+.card-glitter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.8) 0.1%, rgba(255,255,255,0) 0.2%),
+        radial-gradient(circle at 30% 45%, rgba(255,255,255,0.8) 0.1%, rgba(255,255,255,0) 0.2%),
+        radial-gradient(circle at 60% 20%, rgba(255,255,255,0.8) 0.1%, rgba(255,255,255,0) 0.2%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.8) 0.1%, rgba(255,255,255,0) 0.2%);
+    opacity: 0;
+    pointer-events: none;
+}
