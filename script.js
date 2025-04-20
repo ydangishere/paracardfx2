@@ -5,6 +5,120 @@ document.addEventListener('DOMContentLoaded', function() {
     const cardShine = document.querySelector('.card-shine');
     const cardGlitter = document.querySelector('.card-glitter');
     
+    // Xóa mọi phần tử hiệu ứng cũ
+    document.querySelectorAll('.light-effect, .card-highlight, .card-light-effect, .light-overlay, .light-sweep, canvas').forEach(el => {
+        if (el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    });
+    
+    // Tạo phần tử mới cho hiệu ứng
+    const lightEffect = document.createElement('div');
+    lightEffect.className = 'light-effect';
+    
+    // Thiết lập style trực tiếp
+    lightEffect.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.1) 20%,
+            rgba(255, 255, 255, 0.3) 30%,
+            rgba(255, 255, 255, 0.5) 40%,
+            rgba(255, 255, 255, 0.7) 50%,
+            rgba(255, 255, 255, 0.5) 60%,
+            rgba(255, 255, 255, 0.3) 70%,
+            rgba(255, 255, 255, 0.1) 80%,
+            rgba(255, 255, 255, 0.1) 100%);
+        background-size: 200% 200%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s;
+    `;
+    
+    // Thêm vào card
+    card.insertBefore(lightEffect, card.firstChild);
+    
+    // Thêm animation keyframes cho vệt sáng chỉ chạy trong card
+    const styleAnimation = document.createElement('style');
+    styleAnimation.textContent = `
+        @keyframes lightMoveUp {
+            0% { transform: translate(-50%, 100%); }
+            100% { transform: translate(-50%, -100%); }
+        }
+        
+        .beam-animation {
+            position: absolute !important;
+            width: 300% !important;
+            height: 30px !important;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 40%,
+                rgba(255, 255, 255, 0.5) 45%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(255, 255, 255, 0.5) 55%,
+                rgba(255, 255, 255, 0.3) 60%,
+                rgba(255, 255, 255, 0) 100%) !important;
+            left: 50% !important;
+            top: 0 !important;
+            transform: translate(-50%, 100%) rotate(45deg) !important;
+            z-index: 9999 !important;
+            opacity: 0 !important;
+            mix-blend-mode: overlay !important;
+        }
+    `;
+    document.head.appendChild(styleAnimation);
+    
+    // Tạo phần tử mới cho vệt sáng
+    const lightBeam = document.createElement('div');
+    lightBeam.className = 'beam-animation';
+    
+    // Container giới hạn vệt sáng trong card
+    const beamContainer = document.createElement('div');
+    beamContainer.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    `;
+    
+    card.appendChild(beamContainer);
+    beamContainer.appendChild(lightBeam);
+    
+    // Tạo hiệu ứng ánh sáng trực tiếp (không qua CSS)
+    const lightOverlay = document.createElement('div');
+    lightOverlay.id = 'card-light-overlay';
+    lightOverlay.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0;
+        mix-blend-mode: overlay;
+        z-index: 9999;
+        transition: opacity 0.3s;
+    `;
+    card.appendChild(lightOverlay);
+    
+    // Thêm animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes lightMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+    `;
+    document.head.appendChild(style);
+    
     // Phát hiện màu chủ đạo và áp dụng glow tương ứng
     colorAnalyzer.detectDominantColorAndApplyGlow('cardnoshade.png');
     
@@ -12,8 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const spring = {
         stiffness: 0.066,  // độ cứng của lò xo (thấp hơn = mềm hơn)
         damping: 0.25,     // độ giảm chấn (thấp hơn = dao động lâu hơn)
-        maxRotateX: 15,    // góc xoay tối đa
-        maxRotateY: 15,
+        maxRotateX: 16.5,    // góc xoay tối đa
+        maxRotateY: 16.5,
         maxRotateZ: 2.5,
         
         // Trạng thái hiện tại
@@ -113,6 +227,33 @@ document.addEventListener('DOMContentLoaded', function() {
     card.addEventListener('mouseenter', function() {
         // Đặt transition cho holographic
         cardHolo.style.transition = 'opacity 0.3s ease-in-out';
+        
+        // Hiệu ứng ánh sáng
+        lightEffect.style.opacity = '0.15';
+        lightBeam.style.opacity = '0.3';
+        lightBeam.style.animation = 'lightMoveUp 2s ease-in-out infinite';
+        
+        // Bắt đầu hiệu ứng ánh sáng
+        let pos = 0;
+        let animationId = null;
+        function updateGradient() {
+            lightOverlay.style.background = `linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 20%,
+                rgba(255, 255, 255, 0.3) 30%,
+                rgba(255, 255, 255, 0.6) 40%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.6) 60%,
+                rgba(255, 255, 255, 0.3) 70%,
+                rgba(255, 255, 255, 0.1) 80%,
+                rgba(255, 255, 255, 0.2) 100%)`;
+            lightOverlay.style.backgroundSize = '200% 200%';
+            lightOverlay.style.backgroundPosition = `50% 50%`;
+            
+            animationId = requestAnimationFrame(updateGradient);
+        }
+        updateGradient();
+        lightOverlay.style.opacity = '0.05';
     });
     
     // Thêm sự kiện khi di chuột ra
@@ -133,6 +274,18 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             spring.damping = oldDamping;
         }, 800);
+        
+        // Ẩn hiệu ứng ánh sáng
+        lightEffect.style.opacity = '0';
+        lightOverlay.style.opacity = '0';
+        lightBeam.style.opacity = '0';
+        lightBeam.style.animation = '';
+        
+        // Đảm bảo hủy bỏ mọi animation
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
     });
     
     // Thêm hiệu ứng click

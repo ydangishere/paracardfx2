@@ -1,0 +1,33 @@
+.card-highlight {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.3) 30%,
+        rgba(255, 255, 255, 0.6) 40%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.6) 60%,
+        rgba(255, 255, 255, 0.3) 70%,
+        rgba(255, 255, 255, 0.1) 80%,
+        rgba(255, 255, 255, 0.2) 100%) !important;
+    background-size: 200% 200% !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    mix-blend-mode: overlay !important;
+    transition: opacity 0.3s !important;
+}
+
+.card:hover .card-highlight {
+    opacity: 1 !important;
+    animation: card-light-sweep 3s infinite linear !important;
+}
+
+@keyframes card-light-sweep {
+    0% { background-position: 0% 0% !important; }
+    100% { background-position: 100% 100% !important; }
+}

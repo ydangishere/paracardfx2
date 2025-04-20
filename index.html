@@ -110,14 +110,68 @@
             opacity: 0;
             pointer-events: none;
         }
+        
+        /* Hiệu ứng ánh sáng chạy */
+        .card-light-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Hiệu ứng ánh sáng chạy */
+        .card-highlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Hiệu ứng ánh sáng khi hover */
+        .light-sweep {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                transparent 30%,
+                white 50%,
+                transparent 70%,
+                transparent 100%
+            );
+            background-size: 200% 200%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+        
+        .card:hover .light-sweep {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <div class="bg-container">
         <div class="card">
+            <div class="card-shadow"></div>
             <div class="card-holo"></div>
             <div class="card-shine"></div>
             <div class="card-glitter"></div>
+            <div class="card-light-effect"></div>
+            <div class="card-highlight"></div>
+            <div class="light-sweep"></div>
         </div>
     </div>
     <!-- Scripts -->
