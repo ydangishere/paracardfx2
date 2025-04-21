@@ -32,7 +32,7 @@
             position: absolute;
             top: calc(50% + 7px);
             left: 50%;
-            transform: translate(-50%, -50%) perspective(810px);
+            transform: translate(-50%, -50%) perspective(400px);
             background-image: url('cardnoshade.png');
             background-size: 100% 100%;
             background-position: center;
@@ -45,7 +45,7 @@
             position: relative;
             overflow: visible;
             transition: transform 0.1s ease-out;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 2px 4px 12px 4px rgba(0, 0, 0, 0.48);
             transform-origin: center center;
         }
         
@@ -57,7 +57,6 @@
             left: 0;
             right: 0;
             bottom: 0;
-            box-shadow: 0 0 10px 6px var(--glow-color);
             pointer-events: none;
             z-index: -2; /* Giảm z-index xuống thấp hơn */
         }

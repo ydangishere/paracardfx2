@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const spring = {
         stiffness: 0.066,  // độ cứng của lò xo (thấp hơn = mềm hơn)
         damping: 0.25,     // độ giảm chấn (thấp hơn = dao động lâu hơn)
-        maxRotateX: 16.5,    // góc xoay tối đa
-        maxRotateY: 16.5,
+        maxRotateX: 21.25,    // góc xoay tối đa (giảm 15%)
+        maxRotateY: 21.25,    // giảm 15%
         maxRotateZ: 2.5,
         
         // Trạng thái hiện tại
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Áp dụng transform mới
             card.style.transform = `translate(-50%, -50%) 
-                perspective(810px) 
+                perspective(400px) 
                 rotateX(${this.current.x}deg) 
                 rotateY(${this.current.y}deg) 
                 rotateZ(${this.current.z}deg)`;
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Áp dụng scale
                 card.style.transform = `translate(-50%, -50%) 
-                    perspective(810px) 
+                    perspective(400px) 
                     rotateX(${spring.current.x}deg) 
                     rotateY(${spring.current.y}deg) 
                     rotateZ(${spring.current.z}deg)

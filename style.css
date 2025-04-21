@@ -40,7 +40,7 @@ body {
     position: relative;
     overflow: visible;
     transition: transform 0.1s ease-out;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 4px 12px 4px rgba(0, 0, 0, 0.48);
     transform-origin: center center;
 }
 
@@ -91,9 +91,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    box-shadow: 0 0 var(--glow-blur) var(--glow-size) var(--glow-color);
     pointer-events: none;
-    z-index: -2; /* Giảm z-index xuống thấp hơn */
+    z-index: -2;
 }
 
 /* Lớp drop shadow mỏng */
